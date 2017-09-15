@@ -14,7 +14,13 @@ class WeatherApiImpl: WeatherApi {
     private val log: Logger = LoggerFactory.getLogger(this.javaClass)
 
     override fun getWeather(city: City) {
-        val httpResult = get(String.format(Constants.WeatherApi.URL, city.latitude, city.longitude))
-        log.info(httpResult.text)
+        val params = mapOf(
+                "APPID" to Constants.WeatherApi.Key,
+                "metric" to "unit",
+                "lat" to city.latitude.toString(),
+                "lon" to city.longitude.toString()
+                )
+        val httpResult = get(Constants.WeatherApi.URL, params = params)
+        log.info(httpResult.jsonObject.toString())
     }
 }
